@@ -4,13 +4,12 @@ import {Theme} from "@/constants/Theme";
 import {Picker} from "@react-native-picker/picker";
 import {useEffect, useState} from "react";
 import {ThemeS, ThemeType} from "@/entity/singleton/ThemeS";
-import i18n, { setI18nConfig} from "@/utils/i18n";
 import {useTranslation} from "@/hooks/useTranslation";
+import {setI18nConfig} from "@/utils/i18n";
 
 export default function Index() {
 
     const [selectedTheme, setSelectedTheme] = useState(ThemeS.instance.getTheme);
-    const [selectedLanguage, setSelectedLanguage] = useState(i18n.locale);
     const { t, locale, changeLanguage } = useTranslation();
 
 
@@ -67,7 +66,6 @@ export default function Index() {
                 }}
                 selectedValue={locale}
                 onValueChange={(itemValue) => {
-                    setSelectedLanguage(itemValue);
                     changeLanguage(itemValue as 'en' | 'it')
                 }}
             >
