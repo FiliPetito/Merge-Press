@@ -9,8 +9,6 @@ export const initiateTheme = async () => {
     if(themeI.getTheme === 'notSetted'){
         let storedTheme = await AsyncStorage.getItem('user-theme') as ThemeType;
 
-        console.log("Bella")
-
         if (storedTheme === null) {
             storedTheme = 'automatic' as ThemeType;
             await AsyncStorage.setItem('user-theme', storedTheme);
