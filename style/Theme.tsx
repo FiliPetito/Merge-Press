@@ -10,10 +10,16 @@ export const Theme = StyleSheet.create({
         backgroundColor: "#fff",
     },
 
-
     //  Dark Theme
 
     DarkBaseContainer: {
         backgroundColor: "#2f2f2f",
+    },
+
+
+    //  Custom
+
+    CustomBaseContainer: {
+        backgroundColor: "#ababab"
     }
 });

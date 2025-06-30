@@ -42,7 +42,7 @@ export const getThemeColor = () => {
     const colorScheme = useColorScheme();
     const themeI = ThemeS.instance;
     
-    if (themeI.getTheme === 'light') return '#b4b4b4';
+    if (themeI.getTheme === 'light') return '#ffffff';
     if (themeI.getTheme === 'dark') return '#ffffff';
     if (themeI.getTheme === 'custom') return '#ffffff';
     if (themeI.getTheme === 'automatic') {

@@ -1,11 +1,12 @@
 import {Button, Text, View} from "react-native";
 import {initiateTheme, setThemeStyle, useTheme} from "@/hooks/useTheme";
-import {Theme} from "@/constants/Theme";
 import {Picker} from "@react-native-picker/picker";
 import {useEffect, useState} from "react";
 import {ThemeS, ThemeType} from "@/entity/singleton/ThemeS";
 import {useTranslation} from "@/hooks/useTranslation";
 import {setI18nConfig} from "@/utils/i18n";
+import CardComponent from "@/components/CardComponent";
+import {Theme} from "@/style/Theme";
 
 export default function Index() {
 
@@ -26,6 +27,7 @@ export default function Index() {
         Theme.DarkBaseContainer
     );
 
+    // @ts-ignore
     return (
         <View
             style={[
@@ -37,6 +39,9 @@ export default function Index() {
                 }
             ]}
         >
+
+            <CardComponent cardType={'merge'}/>
+
             <Text>{t('welcome')}</Text>
             <Button title={"Testata"} onPress={() => {}} />
 

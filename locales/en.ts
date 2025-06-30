@@ -3,4 +3,9 @@ export default {
 
     english: "English",
     italian: "Italian",
+
+    mergePdf: "Merge PDF",
+    spltPdf: "Split PDF",
+    compressPdf: "Compress PDF",
+
 };
