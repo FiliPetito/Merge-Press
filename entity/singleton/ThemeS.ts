@@ -1,5 +1,4 @@
-
-export type ThemeType = 'light' | 'dark' | 'custom' | 'automatic' | 'notSetted';
+import {ThemeType} from "@/constants/Theme";
 
 type ThemeListener = () => void;
 
