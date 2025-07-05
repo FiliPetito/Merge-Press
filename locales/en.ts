@@ -9,10 +9,8 @@ export default {
     versionLabel : 'Version:',
     fontLabel : 'Font:',
     cameraAccessLabel : 'Access to camera:',
-    storageAccessLabel : 'Access to storage:',
     defaultCompressionLabel : 'Default compression:',
     openPdfOnSaveLabel : 'Open PDF on save:',
-    defaultFolderLabel : 'Default folder:',
     defaultFileNameLabel : 'Default file name:',
 
     // Lingua

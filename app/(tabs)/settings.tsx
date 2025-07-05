@@ -11,18 +11,56 @@ import {LanguageList, TranslateLabel} from "@/constants/TranslateLabel";
 import {CompressionList} from "@/constants/CompressionList";
 import {SwitchComponent} from "@/components/SwitchComponent";
 import {InputComponent} from "@/components/InputComponent";
+import * as ImagePicker from 'expo-image-picker';
+import Toast from 'react-native-toast-message';
+import {SettingsS} from "@/entity/singleton/SettingsS";
+import {saveSettings} from "@/services/settings";
+import {useSettings} from "@/hooks/useSettings";
+
 
 export default function Settings() {
+    const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
+    const { settings, update } = useSettings();
     const [selectedTheme, setSelectedTheme] = useState(ThemeS.instance.getTheme);
     const { t, locale, changeLanguage } = useTranslation();
 
+    //TODO : Caricamento dei settings (da implementare nella pagina di inizio?)
+
+    //TODO : Salvataggio di tutti i cambiamenti quando si esce dalla pagina (o ad ogni modifica)
 
     // Spostiamo initiateTheme in un useEffect
     useEffect(() => {
         initiateTheme();
         setI18nConfig();
+        checkCameraPermission();
     }, []);
+    
+    const checkCameraPermission = async () => {
+        const { status } = await ImagePicker.getCameraPermissionsAsync();
+        setHasCameraPermission(status === 'granted');
+    };
 
+    const toggleCameraPermission = async () => {
+        const { status, canAskAgain } = await ImagePicker.requestCameraPermissionsAsync();
+        const granted = status === 'granted';
+        setHasCameraPermission(granted);
+
+        if (!granted && !canAskAgain) {
+            Toast.show({
+                type: 'info',
+                text1: 'Permesso negato',
+                text2: 'Apri le impostazioni per abilitare la fotocamera',
+            });
+        } else {
+            Toast.show({
+                type: granted ? 'success' : 'error',
+                text1: 'Fotocamera',
+                text2: granted
+                    ? 'Apri le impostazioni per disabilitare la fotocamera'
+                    : 'Permesso non concesso',
+            });
+        }
+    };
 
     const theme = useTheme(
         Theme.LightBaseContainer,
@@ -56,34 +94,58 @@ export default function Settings() {
           <SelectComponet
               labelCode={TranslateLabel.fontLabel}
               keyValueList={[]}
-              selectedValue={''}
-              onChange={() => console.error("Not implemented yet")}
+              selectedValue={settings.getFontDimension.toString()}
+              onChange={(val) => {
+                  settings.setFontDimension = Number(val);
+                  update();
+                  saveSettings(settings);
+              }}
           />
 
-          {/*  Accesso alla telecamera (Toggle) */}
-          <SwitchComponent labelCode={TranslateLabel.cameraAccessLabel} status={true} onChange={() => console.error("Not implemented yet")}/>
-
-          {/*  Accesso alla memoria interna (Toggle) */}
-          <SwitchComponent labelCode={TranslateLabel.storageAccessLabel} status={true} onChange={() => console.error("Not implemented yet")}/>
-
-          {/*  Folder di default (Input: ReadOnly) */}
-          <InputComponent labelCode={TranslateLabel.defaultFolderLabel} type={'default'} value={'/'} onChange={() => console.error("Not implemented yet")} isReadOnly={true} />
+          {/* Accesso alla telecamera (Toggle) */}
+          <SwitchComponent
+              labelCode={TranslateLabel.cameraAccessLabel}
+              status={hasCameraPermission === true}
+              onChange={toggleCameraPermission}
+          />
 
           {/*  Nome di default (Input) */}
-          <InputComponent labelCode={TranslateLabel.defaultFileNameLabel} type={'default'} value={''} onChange={() => console.error("Not implemented yet")} isReadOnly={false} />
+          <InputComponent
+              labelCode={TranslateLabel.defaultFileNameLabel}
+              type={'default'}
+              value={settings.getDefaultFileName}
+              onChange={(val) => {
+                  settings.setDefaultFileName = val;
+                  update();
+                  saveSettings(settings);
+              }}
+              isReadOnly={false}
+          />
 
           {/*  Compressione (Select) */}
           <SelectComponet
               labelCode={TranslateLabel.defaultCompressionLabel}
               keyValueList={CompressionList}
-              selectedValue={selectedTheme}
-              onChange={() => console.error("Not implemented yet")}
+              selectedValue={settings.getDefaultCompression}
+              onChange={(val) => {
+                  settings.setDefaultCompression = val;
+                  update();
+                  saveSettings(settings);
+              }}
           />
 
           {/*  Aprire il file alla creazione (Toggle) */}
-          <SwitchComponent labelCode={TranslateLabel.openPdfOnSaveLabel} status={true} onChange={() => console.error("Not implemented yet")}/>
+          <SwitchComponent
+              labelCode={TranslateLabel.openPdfOnSaveLabel}
+              status={settings.getOpenPdfOnSave}
+              onChange={(val) => {
+                  settings.setOpenPdfOnSave = val;
+                  update();
+                  saveSettings(settings);
+              }}
+          />
 
-
+          <Toast />
       </View>
     );
 }

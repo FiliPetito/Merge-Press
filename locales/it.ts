@@ -10,10 +10,8 @@ export default {
     versionLabel : 'Versione',
     fontLabel : 'Dimensione caratteri:',
     cameraAccessLabel : 'Accesso alla fotocamera:',
-    storageAccessLabel : 'Accesso all\'archivio',
     defaultCompressionLabel : 'Compressione predefinita:',
     openPdfOnSaveLabel : 'Apri PDF al salvataggio:',
-    defaultFolderLabel : 'Percorso file predefinito:',
     defaultFileNameLabel : 'Nome file predefinito:',
 
     // Chiave valore per le selection box

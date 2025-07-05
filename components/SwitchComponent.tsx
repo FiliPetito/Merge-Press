@@ -4,7 +4,7 @@ import {useTranslation} from "@/hooks/useTranslation";
 
 type SwitchComponentType = {
     labelCode : TranslateLabel,
-    onChange : () => void,
+    onChange : (value : boolean) => void,
     status : boolean,
     isActive? : boolean
 }

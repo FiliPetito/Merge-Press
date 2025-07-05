@@ -18,11 +18,11 @@ i18n.enableFallback = true;
 
 export const setI18nConfig = async () => {
     try {
-        const storedLanguage = await AsyncStorage.getItem('user-language');
+        const storedLanguage = await AsyncStorage.getItem('MergePress_language');
 
         if (storedLanguage === null) {
             i18n.locale = <string>getLocales()[0].languageCode;
-            await AsyncStorage.setItem('user-language', <string>getLocales()[0].languageCode);
+            await AsyncStorage.setItem('MergePress_language', <string>getLocales()[0].languageCode);
         }else{
             i18n.locale = storedLanguage || Localization.locale.split('-')[0];
         }
@@ -33,7 +33,7 @@ export const setI18nConfig = async () => {
 };
 
 export const changeLanguage = async (lang: 'en' | 'it') => {
-    await AsyncStorage.setItem('user-language', lang);
+    await AsyncStorage.setItem('MergePress_language', lang);
     i18n.locale = lang;
 
     setI18nConfig()

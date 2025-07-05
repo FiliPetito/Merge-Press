@@ -6,10 +6,8 @@ export enum TranslateLabel {
     versionLabel = 'versionLabel',
     fontLabel = 'fontLabel',
     cameraAccessLabel = 'cameraAccessLabel',
-    storageAccessLabel = 'storageAccessLabel',
     defaultCompressionLabel = 'defaultCompressionLabel',
     openPdfOnSaveLabel = 'openPdfOnSaveLabel',
-    defaultFolderLabel = 'defaultFolderLabel',
     defaultFileNameLabel = 'defaultFileNameLabel',
 }
 
