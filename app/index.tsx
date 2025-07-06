@@ -1,15 +1,13 @@
 import {Button, Text, View} from "react-native";
 import {initiateTheme, setThemeStyle, useTheme} from "@/hooks/useTheme";
-import {Theme, ThemeType} from "@/constants/Theme";
 import {Picker} from "@react-native-picker/picker";
 import {useEffect, useState} from "react";
 import {ThemeS} from "@/entity/singleton/ThemeS";
 import {useTranslation} from "@/hooks/useTranslation";
 import {setI18nConfig} from "@/utils/i18n";
 import CardComponent from "@/components/CardComponent";
-import {Theme} from "@/style/Theme";
-import Toast from "react-native-toast-message";
 import {prepareSettings} from "@/services/settings";
+import {Theme, ThemeType} from "@/style/Theme";
 
 export default function Index() {
 
