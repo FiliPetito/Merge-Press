@@ -1,7 +1,8 @@
 import {useColorScheme} from 'react-native';
-import {ThemeS, ThemeType} from "@/entity/singleton/ThemeS";
+import {ThemeS} from "@/entity/singleton/ThemeS";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useEffect, useState} from 'react';
+import {ThemeType} from "@/constants/Theme";
 
 export const initiateTheme = async () => {
     const themeI = ThemeS.instance;

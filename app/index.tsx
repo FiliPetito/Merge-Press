@@ -1,12 +1,15 @@
 import {Button, Text, View} from "react-native";
 import {initiateTheme, setThemeStyle, useTheme} from "@/hooks/useTheme";
+import {Theme, ThemeType} from "@/constants/Theme";
 import {Picker} from "@react-native-picker/picker";
 import {useEffect, useState} from "react";
-import {ThemeS, ThemeType} from "@/entity/singleton/ThemeS";
+import {ThemeS} from "@/entity/singleton/ThemeS";
 import {useTranslation} from "@/hooks/useTranslation";
 import {setI18nConfig} from "@/utils/i18n";
 import CardComponent from "@/components/CardComponent";
 import {Theme} from "@/style/Theme";
+import Toast from "react-native-toast-message";
+import {prepareSettings} from "@/services/settings";
 
 export default function Index() {
 
@@ -18,6 +21,7 @@ export default function Index() {
     useEffect(() => {
         initiateTheme();
         setI18nConfig();
+        prepareSettings();
     }, []);
 
 
@@ -77,6 +81,7 @@ export default function Index() {
                 <Picker.Item label={t("italian")} value="it" />
                 <Picker.Item label={t("english")} value="en" />
             </Picker>
+
         </View>
     );
 }
