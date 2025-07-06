@@ -13,7 +13,6 @@ import {SwitchComponent} from "@/components/SwitchComponent";
 import {InputComponent} from "@/components/InputComponent";
 import * as ImagePicker from 'expo-image-picker';
 import Toast from 'react-native-toast-message';
-import {SettingsS} from "@/entity/singleton/SettingsS";
 import {saveSettings} from "@/services/settings";
 import {useSettings} from "@/hooks/useSettings";
 
