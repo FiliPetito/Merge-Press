@@ -62,6 +62,13 @@ export default function Settings() {
         }
     };
 
+    const showToast = () => {
+        Toast.show({
+            type: 'info',
+            text1: t('messageSaved'),
+        });
+    }
+
     const theme = useTheme(
         Theme.LightBaseContainer,
         Theme.DarkBaseContainer,
@@ -79,7 +86,10 @@ export default function Settings() {
               labelCode={TranslateLabel.languageLabel}
                 keyValueList={LanguageList}
               selectedValue={locale}
-              onChange={(value) => changeLanguage(value as 'en' | 'it')}
+              onChange={(value) => {
+                  changeLanguage(value as 'en' | 'it')
+                  showToast()
+              }}
           />
 
           {/*  Tema (Select) */}
@@ -87,7 +97,10 @@ export default function Settings() {
               labelCode={TranslateLabel.themeLabel}
               keyValueList={ThemeList}
               selectedValue={selectedTheme}
-              onChange={(value) => setSelectedTheme(value as ThemeType)}
+              onChange={(value) => {
+                  setSelectedTheme(value as ThemeType)
+                  showToast()
+              }}
           />
 
           {/*  Dimensione carattere (Select) */}
@@ -99,6 +112,7 @@ export default function Settings() {
                   settings.setFontDimension = Number(val);
                   update();
                   saveSettings(settings);
+                  showToast()
               }}
           />
 
@@ -106,7 +120,9 @@ export default function Settings() {
           <SwitchComponent
               labelCode={TranslateLabel.cameraAccessLabel}
               status={hasCameraPermission === true}
-              onChange={toggleCameraPermission}
+              onChange={() => {
+                  toggleCameraPermission
+              }}
           />
 
           {/*  Nome di default (Input) */}
@@ -118,6 +134,7 @@ export default function Settings() {
                   settings.setDefaultFileName = val;
                   update();
                   saveSettings(settings);
+                  showToast()
               }}
               isReadOnly={false}
           />
@@ -131,6 +148,7 @@ export default function Settings() {
                   settings.setDefaultCompression = val;
                   update();
                   saveSettings(settings);
+                  showToast()
               }}
           />
 
@@ -142,6 +160,7 @@ export default function Settings() {
                   settings.setOpenPdfOnSave = val;
                   update();
                   saveSettings(settings);
+                  showToast()
               }}
           />
 

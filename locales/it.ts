@@ -1,7 +1,7 @@
 export default {
     welcome: "Benvenuto",
 
-
+    messageSaved: "Impostazioni salvate correttamente!",
 
     // Label
 
