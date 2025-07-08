@@ -8,6 +8,7 @@ import DocumentItem from "@/components/DocumentItem";
 import {router} from "expo-router";
 import {PickedDocument} from "@/types/modal";
 import {usePdfModal} from "@/contexts/PdfModalContext";
+import MenuItem from "@/components/MenuItem";
 
 
 export default function MergePdf() {
@@ -72,111 +73,74 @@ export default function MergePdf() {
     };
 
 
-  const menuItems = [
-    {
-      title: 'File dal dispositivo',
-      icon: 'folder-outline',
-      onPress: pickDocument
-    },
-    {
-      title: 'Scannerizza documenti',
-      icon: 'scan-outline',
-      onPress: pickDocument
-    },
-    {
-      title: 'Testo to PDF',
-      icon: 'document-text-outline',
-      onPress: pickDocument
-    },
-  ];
+
 
 
   return (
       <GestureHandlerRootView style={{ flex: 1 }}>
+        <Pressable style={{flex:1}} onPress={() => setIsMenuOpen(false)}>
+          <View style={{flex: 1}}>
 
-      <View style={{flex: 1}}>
+            <View style={{backgroundColor: 'blue', flex: 1, alignItems: 'center', justifyContent: "center", width: '100%', height: '100%'}}>
+              {selectedFiles.length == 0 && <Text>No file</Text>}
+              {selectedFiles.length != 0 &&
+                  <DraggableFlatList
 
-      <View style={{backgroundColor: 'blue', flex: 1, alignItems: 'center', justifyContent: "center", width: '100%', height: '100%'}}>
-        {selectedFiles.length == 0 && <Text>No file</Text>}
-        {selectedFiles.length != 0 &&
-            <DraggableFlatList
+                      containerStyle={{height: 'auto',
+                        width: 'auto',
+                        backgroundColor: 'magenta',
+                        padding: 10}}
 
-                containerStyle={{height: 'auto',
-                  width: 'auto',
-                  backgroundColor: 'magenta',
-                  padding: 10}}
+                      scrollEnabled={true}
+                      data={selectedFiles}
+                      onDragEnd={({ data }) => {
+                        //TODO : Riorganizzare questo metodo per non dover fare un ciclo di render e creare direttamente una funzione
+                        const updatedData = data.map((item, index) => ({
+                          ...item,
+                          id: index.toString() // Ora partiamo da 0
+                        }));
 
-                scrollEnabled={true}
-                data={selectedFiles}
-                onDragEnd={({ data }) => {
-                  //TODO : Riorganizzare questo metodo per non dover fare un ciclo di render e creare direttamente una funzione
-                  const updatedData = data.map((item, index) => ({
-                    ...item,
-                    id: index.toString() // Ora partiamo da 0
-                  }));
+                        // Resettiamo completamente lo stato
+                        setSelectedFiles([]); // Prima svuotiamo
 
-                  // Resettiamo completamente lo stato
-                  setSelectedFiles([]); // Prima svuotiamo
+                        // Nel prossimo ciclo di render, aggiorniamo con i nuovi dati
+                        requestAnimationFrame(() => {
+                          setSelectedFiles(updatedData);
+                        });
 
-                  // Nel prossimo ciclo di render, aggiorniamo con i nuovi dati
-                  requestAnimationFrame(() => {
-                    setSelectedFiles(updatedData);
-                  });
-
-                }}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item, drag, isActive }) => (
-                    <DocumentItem item={item} onDrag={drag} onPress={() => deleteDocument(item.id)} isActive={isActive} />
-                )}
-            />
-
-
-        }
-      </View>
+                      }}
+                      keyExtractor={(item) => item.id}
+                      renderItem={({ item, drag, isActive }) => (
+                          <DocumentItem item={item} onDrag={drag} onPress={() => deleteDocument(item.id)} isActive={isActive} />
+                      )}
+                  />
 
 
+              }
+            </View>
 
-      {isMenuOpen && (
-        <View style={styles.menuContainer}>
-          {menuItems.map((item, index) => (
-            <Pressable 
-              key={index}
-              style={styles.menuItem}
-              onPress={() => {
-                // Gestire l'azione qui
-                setIsMenuOpen(false);
-                item.onPress();
-              }}
+
+
+            <MenuItem isOpen={isMenuOpen} selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} duplicatedFiles={duplicatedFiles} setDuplicatedFiles={setDuplicatedFiles} setIsOpen={setIsMenuOpen}/>
+
+            <Pressable
+                style={styles.mainButton}
+                onPress={() => setIsMenuOpen(!isMenuOpen)}
             >
-              <View style={styles.menuItemContent}>
-                <View style={styles.iconContainer}>
-                  <Ionicons name={item.icon} size={24} color="white" />
-                </View>
-                <Text style={styles.menuText}>{item.title}</Text>
-              </View>
+              <Ionicons name={'add-outline'} size={24} color="white"/>
             </Pressable>
-          ))}
-        </View>
-      )}
 
-      <Pressable 
-        style={styles.mainButton}
-        onPress={() => setIsMenuOpen(!isMenuOpen)}
-      >
-        <Ionicons name={'add-outline'} size={24} color="white"/>
-      </Pressable>
+            {isEnabledButtonMerge && (
+                <Pressable
+                    style={styles.mergeButton}
+                    onPress={openPdfModal}
+                >
+                  <Text>Merge</Text>
+                </Pressable>
+            )}
 
-      {isEnabledButtonMerge && (
-          <Pressable
-              style={styles.mergeButton}
-              onPress={openPdfModal}
-          >
-              <Text>Merge</Text>
-          </Pressable>
-      )}
-
-      </View>
-
+          </View>
+        </Pressable>
       </GestureHandlerRootView>
   );
 }

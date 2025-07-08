@@ -1,6 +1,5 @@
-import {Switch, Text, View} from "react-native";
+import {Text, View} from "react-native";
 import {useTranslation} from "@/hooks/useTranslation";
-import {Picker} from "@react-native-picker/picker";
 import {ThemeS} from "@/entity/singleton/ThemeS";
 import {initiateTheme, setThemeStyle, useTheme} from "@/hooks/useTheme";
 import {useEffect, useState} from "react";

@@ -36,7 +36,7 @@ export default function RootLayout() {
             >
                 <Stack.Screen
                     name="index"
-                    options={{ headerShown: false }}
+                    options={{ headerShown: true }}
                 />
                 <Stack.Screen
                     name="(tabs)/mergePdf"

@@ -1,5 +1,5 @@
 
-import {Pressable, Text, View} from "react-native";
+import {Pressable, StyleSheet, Text, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import React from "react";
 import ExpoDocumentPicker from "expo-document-picker/src/ExpoDocumentPicker";
@@ -8,7 +8,10 @@ import {PickedDocument} from "@/types/modal";
 type VisibleType = {
     isOpen: boolean;
     selectedFiles: PickedDocument[];
-    setDuplicatedFiles: PickedDocument[];
+    duplicatedFiles: PickedDocument[];
+    setIsOpen: (isOpen: boolean) => void;
+    setSelectedFiles: (selectedFiles: (prevFiles: PickedDocument[]) => (PickedDocument)[]) => void;
+    setDuplicatedFiles: (duplicatedFiles: (prevFiles: PickedDocument[]) => (PickedDocument)[]) => void;
 }
 
 type MenuItemType = {
@@ -17,15 +20,20 @@ type MenuItemType = {
     onPress: any;
 }
 
-const MenuItem = ({isOpen, setDuplicatedFiles, selectedFiles} : VisibleType) => {
+const MenuItem = ({isOpen, duplicatedFiles, setDuplicatedFiles, setSelectedFiles, selectedFiles, setIsOpen} : VisibleType) => {
 
-    const scanDocuments = () => {}
-    const writeText = () => {}
+    //TODO : 1 finalizzare la questione aggiunta e rimozione duplicati pert la scelta dei file
+    //TODO : 2 Creare logica per inserire immagini scattate al momento con ritagli e preview ed aggiunta alla lista
+    //TODO : 3 Creare logica per un editor di testo (se possibile anche complesso) per poi inserirlo nella lista
+
+
+    const scanDocuments = () => {console.error('Non implementato')}
+    const writeText = () => {console.error('Non implementato')}
 
     const pickDocument = async () => {
         try {
             // Resetto la lista dei file duplicati
-            setDuplicatedFiles([])
+            setDuplicatedFiles((prevFiles: PickedDocument[]) => [])
 
 
             // TODO: Controllare se il dispositivo ha concesso i permessi di lettura e scrittura (Modificabile nella sezione di impostazioni del dispositivo e nel Settings)
@@ -60,7 +68,7 @@ const MenuItem = ({isOpen, setDuplicatedFiles, selectedFiles} : VisibleType) => 
                     // Controllo presenza duplicati
                     const duplicateFile = selectedFiles.find(file => file.uri === asset.uri);
                     if (duplicateFile) {
-                        setDuplicatedFiles(prevFiles => [...prevFiles, duplicateFile]);
+                        setDuplicatedFiles((prevFiles: PickedDocument[]) => [...prevFiles, duplicateFile]);
                         return;
                     }
 
@@ -123,7 +131,7 @@ const MenuItem = ({isOpen, setDuplicatedFiles, selectedFiles} : VisibleType) => 
                         style={styles.menuItem}
                         onPress={() => {
                             // Gestire l'azione qui
-                            setIsMenuOpen(false);
+                            setIsOpen(false);
                             item.onPress();
                         }}
                     >
@@ -139,4 +147,64 @@ const MenuItem = ({isOpen, setDuplicatedFiles, selectedFiles} : VisibleType) => 
         )}</>
     );
 }
+
+const styles = StyleSheet.create({
+    mainButton: {
+        backgroundColor: 'red',
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 5,
+        zIndex: 1,
+    },
+    mergeButton: {
+        backgroundColor: 'violet',
+        width: 300,
+        height: 50,
+        borderRadius: 10,
+        position: 'absolute',
+        bottom: 20,
+        left: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 5,
+        zIndex: 1,
+    },
+    menuContainer: {
+        position: 'absolute',
+        bottom: 80,
+        right: 20,
+        zIndex: 0,
+    },
+    menuItem: {
+        marginBottom: 10,
+    },
+    menuItemContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        padding: 10,
+        borderRadius: 25,
+        elevation: 3,
+    },
+    iconContainer: {
+        backgroundColor: 'red',
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10,
+    },
+    menuText: {
+        fontSize: 16,
+        color: '#333',
+    },
+});
+
 export default MenuItem
