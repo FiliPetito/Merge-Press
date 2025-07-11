@@ -54,6 +54,15 @@ export default function RootLayout() {
                         animation: 'slide_from_bottom',
                     }}
                 />
+
+                <Stack.Screen
+                    name="(tabs)/infoModal"
+                    options={{
+                        presentation: 'transparentModal',
+                        headerShown: false,
+                        animation: 'fade_from_bottom',
+                    }}
+                />
                 <Stack.Screen name="(tabs)/settings" options={{ headerShown: true, headerTitle: 'Settings', headerRight: () => null}} />
             </Stack>
         </PdfModalProvider>

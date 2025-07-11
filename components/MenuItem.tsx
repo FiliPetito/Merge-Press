@@ -1,4 +1,3 @@
-
 import {Pressable, StyleSheet, Text, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import React from "react";
@@ -19,6 +18,17 @@ type MenuItemType = {
     icon: string;
     onPress: any;
 }
+
+/**
+ *  This component is used in mergePdf page
+ * @param isOpen
+ * @param duplicatedFiles
+ * @param setDuplicatedFiles
+ * @param setSelectedFiles
+ * @param selectedFiles
+ * @param setIsOpen
+ * @constructor
+ */
 
 const MenuItem = ({isOpen, duplicatedFiles, setDuplicatedFiles, setSelectedFiles, selectedFiles, setIsOpen} : VisibleType) => {
 
@@ -103,7 +113,7 @@ const MenuItem = ({isOpen, duplicatedFiles, setDuplicatedFiles, setSelectedFiles
      * - icon: A string representing the icon associated with the menu item.
      * - onPress: A function to be triggered when the menu item is selected.
      */
-    const menuItems = [
+    const menuItems : MenuItemType[] = [
         {
             title: 'File dal dispositivo',
             icon: 'folder-outline',
@@ -149,32 +159,6 @@ const MenuItem = ({isOpen, duplicatedFiles, setDuplicatedFiles, setSelectedFiles
 }
 
 const styles = StyleSheet.create({
-    mainButton: {
-        backgroundColor: 'red',
-        width: 50,
-        height: 50,
-        borderRadius: 25,
-        position: 'absolute',
-        bottom: 20,
-        right: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-        elevation: 5,
-        zIndex: 1,
-    },
-    mergeButton: {
-        backgroundColor: 'violet',
-        width: 300,
-        height: 50,
-        borderRadius: 10,
-        position: 'absolute',
-        bottom: 20,
-        left: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-        elevation: 5,
-        zIndex: 1,
-    },
     menuContainer: {
         position: 'absolute',
         bottom: 80,

@@ -16,6 +16,7 @@ export default function MergePdf() {
   const [isEnabledButtonMerge, setIsEnabledButtonMerge] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<PickedDocument[]>([]);
   const [duplicatedFiles, setDuplicatedFiles] = useState<PickedDocument[]>([]);
+  const {setDeleteCallback} = usePdfModal();
 
 
   useEffect(() => {
@@ -28,14 +29,26 @@ export default function MergePdf() {
     }
   }, [selectedFiles]);
 
+
   /**
    *  This function delete the document selected
    * @param id of document selected
    */
-  function deleteDocument(id: string) {
-    setSelectedFiles(prevFiles => prevFiles.filter(file => file.id !== id));
+  function deleteDocument(id: string, name: string) {
+    setModalData({ selectedFiles: [] });
+    if (setDeleteCallback) {
+      setDeleteCallback(() => () => deleteDocumentById(id));
+    } // salva callback
+
+    router.push({
+      pathname: '/(tabs)/infoModal',
+      params: { filesName: `${name}`, modalType: 'delete' }
+    });
   }
 
+  const  deleteDocumentById = (id: string)=> {
+    setSelectedFiles(prevFiles => prevFiles.filter(file => file.id !== id));
+  }
 
 
 
@@ -111,7 +124,7 @@ export default function MergePdf() {
                       }}
                       keyExtractor={(item) => item.id}
                       renderItem={({ item, drag, isActive }) => (
-                          <DocumentItem item={item} onDrag={drag} onPress={() => deleteDocument(item.id)} isActive={isActive} />
+                          <DocumentItem item={item} onDrag={drag} onPress={() => deleteDocument(item.id, item.name)} isActive={isActive} />
                       )}
                   />
 
@@ -171,35 +184,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 5,
     zIndex: 1,
-  },
-  menuContainer: {
-    position: 'absolute',
-    bottom: 80,
-    right: 20,
-    zIndex: 0,
-  },
-  menuItem: {
-    marginBottom: 10,
-  },
-  menuItemContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 25,
-    elevation: 3,
-  },
-  iconContainer: {
-    backgroundColor: 'red',
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  menuText: {
-    fontSize: 16,
-    color: '#333',
   },
 });
